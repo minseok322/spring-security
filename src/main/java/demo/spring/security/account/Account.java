@@ -1,7 +1,7 @@
 package demo.spring.security.account;
 
 import jakarta.persistence.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 public class Account {
@@ -45,10 +45,7 @@ public class Account {
     private String password;
     private String role;
 
-    public void encodePassword() {
-        this.password = encodePwd().encode(this.password);
-    }
-    public BCryptPasswordEncoder encodePwd(){
-        return new BCryptPasswordEncoder();
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
     }
 }

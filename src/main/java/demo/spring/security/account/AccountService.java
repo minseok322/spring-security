@@ -1,18 +1,19 @@
 package demo.spring.security.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public class AccountService implements UserDetailsService {
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     AccountRepository accountRepository;
 
@@ -30,7 +31,7 @@ public class AccountService implements UserDetailsService {
     }
 
     public Account createNew(Account account) {
-        account.encodePassword();
+        account.encodePassword(passwordEncoder);
         return this.accountRepository.save(account);
     }
 
