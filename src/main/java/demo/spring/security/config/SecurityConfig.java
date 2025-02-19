@@ -15,11 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableMethodSecurity //URL 매핑된 메소드 권한부여 활용할때
 public class SecurityConfig {
-    @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        @Bean
+        SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/","/info").permitAll()
+                        .requestMatchers("/","/info","/account/**").permitAll()
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated());
         http
@@ -27,23 +27,11 @@ public class SecurityConfig {
         http
                 .httpBasic(Customizer.withDefaults());
         return http.build();
-    }//end of defaultSecurityFilterChain
+        }//end of defaultSecurityFilterChain
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withUsername("minseok")
-                .password(encodePwd().encode("123"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.withUsername("admin")
-                .password(encodePwd().encode("!@#"))
-                .roles("ADMIN")
-                .build();
-    return new InMemoryUserDetailsManager(user, admin);
-    }
-    @Bean
-    public BCryptPasswordEncoder encodePwd(){
+        @Bean
+        public BCryptPasswordEncoder encodePwd(){
         return new BCryptPasswordEncoder();
-    }
+        }
 
 }//end of SecurityConfig
