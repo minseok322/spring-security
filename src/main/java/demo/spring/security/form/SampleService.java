@@ -1,20 +1,16 @@
 package demo.spring.security.form;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import demo.spring.security.account.Account;
+import demo.spring.security.account.AccountContext;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-
+@Log4j2
 @Service
 public class SampleService {
 
     public void dashboard() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Object credentials = authentication.getCredentials();
-        boolean authenticated = authentication.isAuthenticated();
+        Account account = AccountContext.getAccount();
+        log.info(account.getUsername());
     }
 }
